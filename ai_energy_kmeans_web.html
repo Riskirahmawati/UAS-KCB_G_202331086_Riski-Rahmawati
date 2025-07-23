@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediksi Konsumsi Listrik - AI Energi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #3a7bd5, #00d2ff);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 1em;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 2em;
+            background-color: white;
+            margin-top: 2em;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+        h2 {
+            text-align: center;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #3a7bd5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2a5cb8;
+        }
+        footer {
+            margin-top: 3em;
+            text-align: center;
+            font-size: 14px;
+            color: #fff;
+        }
+        .result {
+            background-color: #f2f2f2;
+            padding: 1em;
+            border-radius: 5px;
+            margin-top: 1em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Website AI Energi</h1>
+        <p>Prediksi Konsumsi Listrik Menggunakan K-Means</p>
+    </header>
+
+    <div class="container" id="loginBox">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+    </div>
+
+    <div class="container" id="mainApp" style="display: none;">
+        <h2>Masukkan Data Konsumsi Listrik</h2>
+        <input type="text" id="input1" placeholder="Konsumsi (kWh)">
+        <input type="text" id="input2" placeholder="Suhu Lingkungan (°C)">
+        <button onclick="predictCluster()">Prediksi Cluster</button>
+        <div class="result" id="resultBox"></div>
+    </div>
+
+    <footer>
+        <p>Nama Dosen: Dr. Efy Yosrita, S.Si, M.Kom</p>
+        <p>Fakultas Telematika Energi, Institut Teknologi PLN</p>
+        <p>Pembuat Website: Riski Rahmawati</p>
+        <p>UAS Mata Kuliah Kecerdasan Buatan - Kelas G</p>
+    </footer>
+
+    <script>
+        const mockCenters = [
+            {x: 100, y: 25}, // Cluster 1
+            {x: 300, y: 30}, // Cluster 2
+            {x: 500, y: 35}  // Cluster 3
+        ];
+
+        function login() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            if (username === "admin" && password === "admin") {
+                document.getElementById("loginBox").style.display = "none";
+                document.getElementById("mainApp").style.display = "block";
+            } else {
+                alert("Username atau password salah.");
+            }
+        }
+
+        function predictCluster() {
+            const input1 = parseFloat(document.getElementById("input1").value);
+            const input2 = parseFloat(document.getElementById("input2").value);
+
+            let minDist = Infinity;
+            let cluster = -1;
+
+            mockCenters.forEach((center, idx) => {
+                const dist = Math.sqrt(
+                    Math.pow(center.x - input1, 2) +
+                    Math.pow(center.y - input2, 2)
+                );
+                if (dist < minDist) {
+                    minDist = dist;
+                    cluster = idx + 1;
+                }
+            });
+
+            document.getElementById("resultBox").innerText = `Data Anda termasuk dalam Cluster ${cluster}`;
+        }
+    </script>
+</body>
+</html>
